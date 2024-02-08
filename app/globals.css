@@ -11,6 +11,10 @@
   font-family: "Manrope", sans-serif;
 }
 
+body{
+  background-color: rgba(99, 172, 172, 0.466)
+}
+
 /* START: General styles */
 .max-width {
   @apply max-w-[1440px] mx-auto;
