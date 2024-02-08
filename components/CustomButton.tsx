@@ -1,10 +1,19 @@
+'use client'
+import { CustomButtonProps } from '@/types'
 import React from 'react'
 
-const CustomButton = () => {
+const CustomButton = ({ title, containerStyles, handleClick }: CustomButtonProps) => {
   return (
-    <div>
-      CustomButton
-    </div>
+    <button
+       disabled={false}
+       type={"button"}
+       className={`custom-btn`}
+       onClick={() => {}}
+    >
+        <span className={`flex-1`}>
+            {title}
+        </span>
+    </button>
   )
 }
 
