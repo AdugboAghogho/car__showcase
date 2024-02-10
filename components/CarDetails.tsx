@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
-const CardDetails = () => {
+import Image from "next/image";
+
+import { Dialog, Transition } from "@headlessui/react";
+import { CarProps } from "@/types";
+import { generateCarImageUrl } from "@/utils";
+
+interface CarDetailsProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  car: CarProps;
+}
+
+const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
   return (
-    <div>
-      .
-    </div>
+    <>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog>
+          .
+        </Dialog>
+      </Transition>
+    </>
   )
 }
 
-export default CardDetails
+export default CarDetails
