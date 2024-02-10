@@ -41,7 +41,20 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                .
+                <Dialog.Panel>
+                  <button
+                    type='button'
+                    onClick={closeModal}
+                  >
+                    <Image 
+                      src="/close.svg"
+                      alt='close'
+                      width={20}
+                      height={20}
+                      className='object-contain'
+                    />
+                  </button>
+                </Dialog.Panel>
               </Transition.Child>
             </div>
           </div>
