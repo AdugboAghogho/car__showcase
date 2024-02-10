@@ -67,6 +67,7 @@ const SearchBar = () => {
         />
         <SearchButton otherClasses='sm:hidden' />
       </div>
+      
       <div className='searchbar__item'>
         <Image
           src='/model-icon.png'
