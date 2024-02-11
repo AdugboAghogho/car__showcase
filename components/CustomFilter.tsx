@@ -35,8 +35,25 @@ const CustomFilter = ({ title, options }: CustomFilterProps) => {
 
           <Transition
             as={Fragment}
+            leave='transiton ease-in duration-100'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
           >
-            .
+            <Listbox.Options className='custom-filter__options'>
+              {options.map((option) => (
+                <Listbox.Option
+                  key={option.title}
+                  value={option}
+                  className={({ active }) => `relative cursor-default select-none py-2 px-4 ${active ? 'bg-primary-blue text-white' : 'text-gray-900'}`}
+                >
+                  {({ selected }) => (
+                    <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
+                      {option.title}
+                    </span>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
           </Transition>
         </div>
       </Listbox>
