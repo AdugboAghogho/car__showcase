@@ -81,11 +81,11 @@ export default function Home() {
             {loading && (
               <div className="mt-16 w-full flex-center">
                 <Image 
-                  src='/loader.svg' 
+                  src='/Spinner.svg' 
                   alt='loader'
-                  width={50}
-                  height={50}
-                  className='object-contain'
+                  width={100}
+                  height={100}
+                  className='object-contain rounded-full'
                 />
               </div>
             )}
