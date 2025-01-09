@@ -33,26 +33,60 @@ export const deleteSearchParams = (type: string) => {
   return newPathname;
 };
 
+
 export async function fetchCars(filters: FilterProps) {
   const { manufacturer, year, model, limit, fuel } = filters;
 
+  // Construct the query string only with defined parameters
+  const queryParams = new URLSearchParams();
+
+  if (manufacturer) queryParams.append("make", manufacturer);
+  if (year) queryParams.append("year", year.toString());
+  if (model) queryParams.append("model", model);
+  if (limit) queryParams.append("limit", limit.toString());
+  if (fuel) queryParams.append("fuel_type", fuel);
+
+  const url = `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?${queryParams.toString()}`;
+
   const headers: HeadersInit = {
-    'X-RapidAPI-Key': '7863d4535amsh316a63b24ad3297p1c1a24jsnbc22829254b8',
-		'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
+    "X-RapidAPI-Key": "7863d4535amsh316a63b24ad3297p1c1a24jsnbc22829254b8",
+    "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
   };
 
-  const response = await fetch(
-    `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${manufacturer}&year=${year}&model=${model}&limit=${limit}&fuel_type=${fuel}`,
-    {
-      headers: headers,
+  try {
+    const response = await fetch(url, { headers });
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
-  );
-
-  // Parse the response as JSON
-  const result = await response.json();
-
-  return result;
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("FetchCars Error:", error);
+    throw error;
+  }
 }
+
+// export async function fetchCars(filters: FilterProps) {
+//   const { manufacturer, year, model, limit, fuel } = filters;
+
+//   const headers: HeadersInit = {
+//     'X-RapidAPI-Key': '7863d4535amsh316a63b24ad3297p1c1a24jsnbc22829254b8',
+// 		'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
+//   };
+
+//   const response = await fetch(
+//     `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${manufacturer}&year=${year}&model=${model}&limit=${limit}&fuel_type=${fuel}`,
+//      https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?model=corolla
+//     {
+//       headers: headers,
+//     }
+//   );
+
+//   // Parse the response as JSON
+//   const result = await response.json();
+
+//   return result;
+// }
 
 export const generateCarImageUrl = (car: CarProps, angle?: string) => {
   const url = new URL("https://cdn.imagin.studio/getimage");
