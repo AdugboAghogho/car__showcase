@@ -38,23 +38,41 @@ export const deleteSearchParams = (type: string) => {
 export async function fetchCars(filters: FilterProps) {
   const { manufacturer, year, model, limit, fuel } = filters;
 
+  // Dynamically build the query parameters
+  const queryParams = new URLSearchParams();
+
+  if (manufacturer) queryParams.append("make", manufacturer);
+  if (year) queryParams.append("year", year.toString());
+  if (model) queryParams.append("model", model);
+  if (limit) queryParams.append("limit", limit.toString());
+  if (fuel) queryParams.append("fuel_type", fuel);
+
+  const url = `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?${queryParams.toString()}`;
+
   const headers: HeadersInit = {
-    'X-RapidAPI-Key': '7863d4535amsh316a63b24ad3297p1c1a24jsnbc22829254b8',
-		'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
+    "X-RapidAPI-Key": "7863d4535amsh316a63b24ad3297p1c1a24jsnbc22829254b8",
+    "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
   };
 
-  const response = await fetch(
-    `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=Toyota&year=2022&limit=5&fuel_type=Gasoline`,
-    {
-      headers: headers,
+  try {
+    console.log("Request URL:", url); // Log the request URL for debugging
+    const response = await fetch(url, { headers });
+
+    if (!response.ok) {
+      const errorText = await response.text(); // Log error details from the API
+      console.error("API Response Error:", errorText);
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
-  );
 
-  // Parse the response as JSON
-  const result = await response.json();
-
-  return result;
+    const result = await response.json();
+    console.log("API Response:", result); // Log the successful response
+    return result;
+  } catch (error) {
+    console.error("FetchCars Error:", error);
+    throw error;
+  }
 }
+
 
 export const generateCarImageUrl = (car: CarProps, angle?: string) => {
   const url = new URL("https://cdn.imagin.studio/getimage");
